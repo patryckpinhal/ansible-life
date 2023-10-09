@@ -1,0 +1,13 @@
+---
+- name: Consultar espaço em disco em todos os servidores
+  hosts: all
+  gather_facts: yes  # Coletar informações do sistema
+
+  tasks:
+    - name: Consultar espaço em disco no sistema de arquivos raiz
+      ansible.builtin.shell: df -h / | awk 'NR==2 {print $5}'
+      register: resultado_df
+
+    - name: Exibir porcentagem de espaço em uso
+      ansible.builtin.debug:
+        msg: "Porcentagem de espaço em uso em {{ inventory_hostname }}: {{ resultado_df.stdout }}"
