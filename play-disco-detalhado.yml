@@ -1,0 +1,13 @@
+---
+- name: Consultar espaço de disco nos servidores
+  hosts: all
+  become: yes  # Para executar com privilégios de superusuário (root)
+
+  tasks:
+    - name: Consultar espaço de disco
+      ansible.builtin.shell: df -h
+      register: resultado_df
+
+    - name: Exibir resultados
+      ansible.builtin.debug:
+        var: resultado_df.stdout_lines
